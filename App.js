@@ -6,43 +6,53 @@
 
 import React, { Component } from 'react';
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
+    Platform,
+    StyleSheet,
+    Text,
+    TextInput,
+    View
 } from 'react-native';
+import MapView from 'react-native-maps';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
 export default class App extends Component<{}> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to Wayfindr!
-        </Text>
-        <Text style={styles.instructions}>
-          The best way to travel
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.startPoint = {text: ''};
+    }
+
+    render() {
+        const { region } = this.props;
+        console.log(region);
+
+        return (
+            <View style={styles.container}>
+                <MapView
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: 53.3421508,
+                        longitude: -6.2535567,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                />
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    //flex: 1,
+    //backgroundColor: '#3F51B5',
+    ...StyleSheet.absoluteFillObject,
+    height: 400,
+    width: 400,
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#3F51B5',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
   welcome: {
     fontSize: 20,
