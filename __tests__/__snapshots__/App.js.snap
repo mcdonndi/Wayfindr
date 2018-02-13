@@ -1,0 +1,292 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "bottom": 0,
+      "justifyContent": "flex-end",
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+    }
+  }
+>
+  <MapView
+    customMapStyle={
+      Array [
+        Object {
+          "elementType": "geometry",
+          "stylers": Array [
+            Object {
+              "color": "#1d2c4d",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.fill",
+          "stylers": Array [
+            Object {
+              "color": "#8ec3b9",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.stroke",
+          "stylers": Array [
+            Object {
+              "color": "#1a3646",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry.stroke",
+          "featureType": "administrative.country",
+          "stylers": Array [
+            Object {
+              "color": "#4b6878",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.fill",
+          "featureType": "administrative.land_parcel",
+          "stylers": Array [
+            Object {
+              "color": "#64779e",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry.stroke",
+          "featureType": "administrative.province",
+          "stylers": Array [
+            Object {
+              "color": "#4b6878",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry.stroke",
+          "featureType": "landscape.man_made",
+          "stylers": Array [
+            Object {
+              "color": "#334e87",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry",
+          "featureType": "landscape.natural",
+          "stylers": Array [
+            Object {
+              "color": "#023e58",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry",
+          "featureType": "poi",
+          "stylers": Array [
+            Object {
+              "color": "#283d6a",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.fill",
+          "featureType": "poi",
+          "stylers": Array [
+            Object {
+              "color": "#6f9ba5",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.stroke",
+          "featureType": "poi",
+          "stylers": Array [
+            Object {
+              "color": "#1d2c4d",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry.fill",
+          "featureType": "poi.park",
+          "stylers": Array [
+            Object {
+              "color": "#023e58",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.fill",
+          "featureType": "poi.park",
+          "stylers": Array [
+            Object {
+              "color": "#3C7680",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry",
+          "featureType": "road",
+          "stylers": Array [
+            Object {
+              "color": "#304a7d",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.fill",
+          "featureType": "road",
+          "stylers": Array [
+            Object {
+              "color": "#98a5be",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.stroke",
+          "featureType": "road",
+          "stylers": Array [
+            Object {
+              "color": "#1d2c4d",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry",
+          "featureType": "road.highway",
+          "stylers": Array [
+            Object {
+              "color": "#2c6675",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry.stroke",
+          "featureType": "road.highway",
+          "stylers": Array [
+            Object {
+              "color": "#255763",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.fill",
+          "featureType": "road.highway",
+          "stylers": Array [
+            Object {
+              "color": "#b0d5ce",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.stroke",
+          "featureType": "road.highway",
+          "stylers": Array [
+            Object {
+              "color": "#023e58",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.fill",
+          "featureType": "transit",
+          "stylers": Array [
+            Object {
+              "color": "#98a5be",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.stroke",
+          "featureType": "transit",
+          "stylers": Array [
+            Object {
+              "color": "#1d2c4d",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry.fill",
+          "featureType": "transit.line",
+          "stylers": Array [
+            Object {
+              "color": "#283d6a",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry",
+          "featureType": "transit.station",
+          "stylers": Array [
+            Object {
+              "color": "#3a4762",
+            },
+          ],
+        },
+        Object {
+          "elementType": "geometry",
+          "featureType": "water",
+          "stylers": Array [
+            Object {
+              "color": "#0e1626",
+            },
+          ],
+        },
+        Object {
+          "elementType": "labels.text.fill",
+          "featureType": "water",
+          "stylers": Array [
+            Object {
+              "color": "#4e6d70",
+            },
+          ],
+        },
+      ]
+    }
+    initialRegion={
+      Object {
+        "latitude": 53.3421508,
+        "latitudeDelta": 0.0922,
+        "longitude": -6.2535567,
+        "longitudeDelta": 0.0421,
+      }
+    }
+    scrollEnabled={true}
+    style={
+      Object {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      }
+    }
+    zoomEnabled={true}
+  />
+  <View
+    style={
+      Object {
+        "backgroundColor": "#E8EAF6",
+        "borderRadius": 3,
+        "position": "absolute",
+        "top": 20,
+        "width": "80%",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      placeholder="Enter Location"
+      selectionColor="#9FA8DA"
+      underlineColorAndroid="#3F51B5"
+    />
+  </View>
+</View>
+`;
