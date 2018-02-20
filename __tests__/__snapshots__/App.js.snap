@@ -275,18 +275,136 @@ exports[`renders correctly 1`] = `
       Object {
         "backgroundColor": "#E8EAF6",
         "borderRadius": 3,
+        "flexDirection": "row",
         "position": "absolute",
         "top": 20,
         "width": "80%",
       }
     }
   >
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "flex": 1.5,
+        }
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontSize": 12,
+            },
+            Object {
+              "bottom": 0,
+              "color": "#3F51B5",
+              "fontSize": 24,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "textAlign": "center",
+              "textAlignVertical": "center",
+              "top": 0,
+            },
+            Object {
+              "fontFamily": "Material Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
     <TextInput
       allowFontScaling={true}
       placeholder="Enter Location"
       selectionColor="#9FA8DA"
+      style={
+        Object {
+          "flex": 7,
+        }
+      }
       underlineColorAndroid="#3F51B5"
     />
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "flex": 1.5,
+        }
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={false}
+        ellipsizeMode="tail"
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontSize": 12,
+            },
+            Object {
+              "bottom": 0,
+              "color": "#3F51B5",
+              "fontSize": 24,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "textAlign": "center",
+              "textAlignVertical": "center",
+              "top": 0,
+            },
+            Object {
+              "fontFamily": "Material Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
   </View>
 </View>
 `;

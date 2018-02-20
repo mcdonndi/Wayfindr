@@ -6,7 +6,7 @@
 
 import React, { Component } from 'react';
 import {
-    Platform,
+    TouchableHighlight,
     StyleSheet,
     Text,
     StatusBar,
@@ -14,6 +14,7 @@ import {
     View
 } from 'react-native';
 import MapView from 'react-native-maps';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 mapStyle = [
     {
@@ -276,11 +277,24 @@ export default class App extends Component<{}> {
                     scrollEnabled={true}
                 />
                 <View style={styles.locationSearchView}>
+                    <TouchableHighlight style={styles.searchBarButtons}>
+                        <Icon
+                            style={styles.searchBarIcons}
+                            name="menu"
+                        />
+                    </TouchableHighlight>
                     <TextInput
+                        style={styles.locationSearch}
                         placeholder="Enter Location"
                         selectionColor="#9FA8DA"
                         underlineColorAndroid="#3F51B5"
                     />
+                    <TouchableHighlight style={styles.searchBarButtons}>
+                        <Icon
+                            style={styles.searchBarIcons}
+                            name="search"
+                        />
+                    </TouchableHighlight>
                 </View>
             </View>
         );
@@ -298,9 +312,23 @@ const styles = StyleSheet.create({
     },
     locationSearchView: {
         width: '80%',
+        flexDirection: 'row',
         position: 'absolute',
         top: 20,
         borderRadius: 3,
         backgroundColor: '#E8EAF6',
     },
+    searchBarButtons: {
+        flex: 1.5,
+    },
+    searchBarIcons: {
+        ...StyleSheet.absoluteFillObject,
+        fontSize: 24,
+        color: '#3F51B5',
+        textAlignVertical: 'center',
+        textAlign: 'center'
+    },
+    locationSearch: {
+        flex: 7,
+    }
 });
