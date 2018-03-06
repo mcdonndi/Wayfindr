@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 mapStyle = [
     {
@@ -252,12 +253,30 @@ mapStyle = [
 
 export default class App extends Component<{}> {
 
+    constructor (props) {
+        super(props);
 
+        this.state = {
+            region: {
+                latitude: 53.3421508,
+                longitude: -6.2535567,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            },
+            initialRegion: {
+                latitude: 53.3421508,
+                longitude: -6.2535567,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }
+        };
+    }
+
+    onRegionChange(region) {
+        this.setState({ region });
+    }
 
     render() {
-        const { region } = this.props;
-        console.log(region);
-
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -266,12 +285,9 @@ export default class App extends Component<{}> {
                 />
                 <MapView
                     style={styles.map}
-                    initialRegion={{
-                        latitude: 53.3421508,
-                        longitude: -6.2535567,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
+                    initialRegion={this.state.initialRegion}
+                    region={this.state.region}
+                    onRegionChange={this.onRegionChange.bind(this)}
                     customMapStyle={mapStyle}
                     zoomEnabled={true}
                     scrollEnabled={true}
@@ -283,11 +299,57 @@ export default class App extends Component<{}> {
                             name="menu"
                         />
                     </TouchableHighlight>
-                    <TextInput
+                    <GooglePlacesAutocomplete
                         style={styles.locationSearch}
-                        placeholder="Enter Location"
-                        selectionColor="#9FA8DA"
-                        underlineColorAndroid="#3F51B5"
+                        placeholder='Search'
+                        minLength={2} // minimum length of text to search
+                        autoFocus={false}
+                        listViewDisplayed='auto'    // true/false/undefined
+                        fetchDetails={true}
+                        onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                            console.log(data, details);
+                            this.setState ({region: {
+                                latitude: details.geometry.location.lat,
+                                longitude: details.geometry.location.lng,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }})
+                        }}
+
+
+                        getDefaultValue={() => ''}
+
+                        query={{
+                            // available options: https://developers.google.com/places/web-service/autocomplete
+                            key: 'AIzaSyCOPygpIBgzbsKYbr1q0Yqc7rvPv6bnhv0',
+                            language: 'en', // language of the results
+                        }}
+
+                        styles={{
+                            container: {
+                                flex: 7
+                            },
+                            textInputContainer: {
+                                width: '100%'
+                            },
+                            description: {
+                                fontWeight: 'bold'
+                            }
+                        }}
+                        nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                        GoogleReverseGeocodingQuery={{
+                            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                        }}
+                        GooglePlacesSearchQuery={{
+                            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                            rankby: 'distance',
+                            types: 'address'
+                        }}
+
+                        filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+
+
+                        debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                     />
                     <TouchableHighlight style={styles.searchBarButtons}>
                         <Icon

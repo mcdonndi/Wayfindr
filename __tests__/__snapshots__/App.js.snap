@@ -258,6 +258,15 @@ exports[`renders correctly 1`] = `
         "longitudeDelta": 0.0421,
       }
     }
+    onRegionChange={[Function]}
+    region={
+      Object {
+        "latitude": 53.3421508,
+        "latitudeDelta": 0.0922,
+        "longitude": -6.2535567,
+        "longitudeDelta": 0.0421,
+      }
+    }
     scrollEnabled={true}
     style={
       Object {
@@ -338,17 +347,69 @@ exports[`renders correctly 1`] = `
         
       </Text>
     </View>
-    <TextInput
-      allowFontScaling={true}
-      placeholder="Enter Location"
-      selectionColor="#9FA8DA"
+    <View
       style={
-        Object {
-          "flex": 7,
-        }
+        Array [
+          Object {
+            "flex": 1,
+          },
+          Object {
+            "flex": 7,
+          },
+        ]
       }
-      underlineColorAndroid="#3F51B5"
-    />
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#C9C9CE",
+              "borderBottomColor": "#b5b5b5",
+              "borderBottomWidth": 0.5,
+              "borderTopColor": "#7e7e7e",
+              "borderTopWidth": 0.5,
+              "flexDirection": "row",
+              "height": 44,
+            },
+            Object {
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <TextInput
+          allowFontScaling={true}
+          autoFocus={false}
+          clearButtonMode="while-editing"
+          onChangeText={[Function]}
+          onFocus={[Function]}
+          placeholder="Search"
+          placeholderTextColor="#A8A8A8"
+          returnKeyType="default"
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderRadius": 5,
+                "flex": 1,
+                "fontSize": 15,
+                "height": 28,
+                "marginLeft": 8,
+                "marginRight": 8,
+                "marginTop": 7.5,
+                "paddingBottom": 4.5,
+                "paddingLeft": 10,
+                "paddingRight": 10,
+                "paddingTop": 4.5,
+              },
+              undefined,
+            ]
+          }
+          underlineColorAndroid="transparent"
+          value=""
+        />
+      </View>
+    </View>
     <View
       accessibilityComponentType={undefined}
       accessibilityLabel={undefined}
