@@ -268,7 +268,8 @@ export default class App extends Component<{}> {
                 longitude: -6.2535567,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
-            }
+            },
+            searchDestinationVis: false
         };
     }
 
@@ -280,8 +281,8 @@ export default class App extends Component<{}> {
         return (
             <View style={styles.container}>
                 <StatusBar
-                backgroundColor="#3F51B5"
-                barStyle="light-content"
+                    backgroundColor="#3F51B5"
+                    barStyle="light-content"
                 />
                 <MapView
                     style={styles.map}
@@ -293,15 +294,76 @@ export default class App extends Component<{}> {
                     scrollEnabled={true}
                 />
                 <View style={styles.locationSearchView}>
-                    <TouchableHighlight style={styles.searchBarButtons}>
-                        <Icon
-                            style={styles.searchBarIcons}
-                            name="menu"
+                    <View style={styles.locationSearchViewTop}>
+                        <TouchableHighlight style={styles.searchBarButtons}>
+                            <Icon
+                                style={styles.searchBarIcons}
+                                name="menu"
+                            />
+                        </TouchableHighlight>
+                        <GooglePlacesAutocomplete
+                            style={styles.locationSearch}
+                            placeholder='Enter Location'
+                            minLength={2} // minimum length of text to search
+                            autoFocus={false}
+                            listViewDisplayed='auto'    // true/false/undefined
+                            fetchDetails={true}
+                            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                                console.log(data, details);
+                                this.setState ({region: {
+                                    latitude: details.geometry.location.lat,
+                                    longitude: details.geometry.location.lng,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
+                                },
+                                searchDestinationVis: true});
+                            }}
+
+
+                            getDefaultValue={() => ''}
+
+                            query={{
+                                // available options: https://developers.google.com/places/web-service/autocomplete
+                                key: 'AIzaSyCOPygpIBgzbsKYbr1q0Yqc7rvPv6bnhv0',
+                                language: 'en', // language of the results
+                            }}
+
+                            styles={{
+                                container: {
+                                    flex: 7
+                                },
+                                textInputContainer: {
+                                    width: '100%'
+                                },
+                                description: {
+                                    fontWeight: 'bold'
+                                }
+                            }}
+                            nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                            GoogleReverseGeocodingQuery={{
+                                // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                            }}
+                            GooglePlacesSearchQuery={{
+                                // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                                rankby: 'distance',
+                                types: 'address'
+                            }}
+
+                            filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+
+
+                            debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                         />
-                    </TouchableHighlight>
+                        <TouchableHighlight style={styles.searchBarButtons}>
+                            <Icon
+                                style={styles.searchBarIcons}
+                                name="search"
+                            />
+                        </TouchableHighlight>
+                    </View>
                     <GooglePlacesAutocomplete
                         style={styles.locationSearch}
-                        placeholder='Search'
+                        placeholder='Enter Destination'
                         minLength={2} // minimum length of text to search
                         autoFocus={false}
                         listViewDisplayed='auto'    // true/false/undefined
@@ -326,13 +388,12 @@ export default class App extends Component<{}> {
                         }}
 
                         styles={{
-                            container: {
-                                flex: 7
-                            },
+                            container: (!this.state.searchDestinationVis && styles.displayNone) || (styles.displayFlex),
                             textInputContainer: {
-                                width: '100%'
+                                width: '70%'
                             },
                             description: {
+                                width: '70%',
                                 fontWeight: 'bold'
                             }
                         }}
@@ -351,12 +412,6 @@ export default class App extends Component<{}> {
 
                         debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                     />
-                    <TouchableHighlight style={styles.searchBarButtons}>
-                        <Icon
-                            style={styles.searchBarIcons}
-                            name="search"
-                        />
-                    </TouchableHighlight>
                 </View>
             </View>
         );
@@ -374,11 +429,22 @@ const styles = StyleSheet.create({
     },
     locationSearchView: {
         width: '80%',
-        flexDirection: 'row',
+        flexDirection: 'column',
+        alignItems: 'center',
         position: 'absolute',
         top: 20,
+    },
+    locationSearchViewTop: {
+        flex: 1,
+        flexDirection: 'row',
         borderRadius: 3,
         backgroundColor: '#E8EAF6',
+    },
+    displayNone: {
+        display: 'none'
+    },
+    displayFlex: {
+        display: 'flex'
     },
     searchBarButtons: {
         flex: 1.5,
