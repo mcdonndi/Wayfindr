@@ -16,6 +16,7 @@ import {
 import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import GoRequest from "./modules/GoRequest";
 
 mapStyle = [
     {
@@ -251,6 +252,8 @@ mapStyle = [
     }
 ];
 
+var gr = new GoRequest();
+
 export default class App extends Component<{}> {
 
     constructor (props) {
@@ -269,7 +272,11 @@ export default class App extends Component<{}> {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             },
-            searchDestinationVis: false
+            searchDestinationVis: false,
+            oLat: null,
+            oLong: null,
+            dLat: null,
+            dLong: null,
         };
     }
 
@@ -316,7 +323,9 @@ export default class App extends Component<{}> {
                                     latitudeDelta: 0.0922,
                                     longitudeDelta: 0.0421,
                                 },
-                                searchDestinationVis: true});
+                                searchDestinationVis: true,
+                                oLat: details.geometry.location.lat,
+                                oLong: details.geometry.location.lng,});
                             }}
 
 
@@ -354,7 +363,8 @@ export default class App extends Component<{}> {
 
                             debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                         />
-                        <TouchableHighlight style={styles.searchBarButtons}>
+                        <TouchableHighlight style={styles.searchBarButtons}
+                            onPress={() => gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong)}>
                             <Icon
                                 style={styles.searchBarIcons}
                                 name="search"
@@ -375,7 +385,9 @@ export default class App extends Component<{}> {
                                 longitude: details.geometry.location.lng,
                                 latitudeDelta: 0.0922,
                                 longitudeDelta: 0.0421,
-                            }})
+                            },
+                            dLat: details.geometry.location.lat,
+                            dLong: details.geometry.location.lng,})
                         }}
 
 
