@@ -16,6 +16,7 @@ import {
 import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import styles from "./Styles"
 import GoRequest from "./modules/GoRequest";
 
 mapStyle = [
@@ -327,16 +328,12 @@ export default class App extends Component<{}> {
                                 oLat: details.geometry.location.lat,
                                 oLong: details.geometry.location.lng,});
                             }}
-
-
                             getDefaultValue={() => ''}
-
                             query={{
                                 // available options: https://developers.google.com/places/web-service/autocomplete
                                 key: 'AIzaSyCOPygpIBgzbsKYbr1q0Yqc7rvPv6bnhv0',
                                 language: 'en', // language of the results
                             }}
-
                             styles={{
                                 container: {
                                     flex: 7
@@ -349,15 +346,11 @@ export default class App extends Component<{}> {
                                 }
                             }}
                             nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-                            GoogleReverseGeocodingQuery={{
-                                // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-                            }}
                             GooglePlacesSearchQuery={{
                                 // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
                                 rankby: 'distance',
                                 types: 'address'
                             }}
-
                             filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
 
 
@@ -389,16 +382,12 @@ export default class App extends Component<{}> {
                             dLat: details.geometry.location.lat,
                             dLong: details.geometry.location.lng,})
                         }}
-
-
                         getDefaultValue={() => ''}
-
                         query={{
                             // available options: https://developers.google.com/places/web-service/autocomplete
                             key: 'AIzaSyCOPygpIBgzbsKYbr1q0Yqc7rvPv6bnhv0',
                             language: 'en', // language of the results
                         }}
-
                         styles={{
                             container: (!this.state.searchDestinationVis && styles.displayNone) || (styles.displayFlex),
                             textInputContainer: {
@@ -410,18 +399,11 @@ export default class App extends Component<{}> {
                             }
                         }}
                         nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-                        GoogleReverseGeocodingQuery={{
-                            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-                        }}
                         GooglePlacesSearchQuery={{
                             // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
                             rankby: 'distance',
                             types: 'address'
                         }}
-
-                        filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-
-
                         debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                     />
                 </View>
@@ -429,46 +411,3 @@ export default class App extends Component<{}> {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        ...StyleSheet.absoluteFillObject,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    map: {
-        ...StyleSheet.absoluteFillObject,
-    },
-    locationSearchView: {
-        width: '80%',
-        flexDirection: 'column',
-        alignItems: 'center',
-        position: 'absolute',
-        top: 20,
-    },
-    locationSearchViewTop: {
-        flex: 1,
-        flexDirection: 'row',
-        borderRadius: 3,
-        backgroundColor: '#E8EAF6',
-    },
-    displayNone: {
-        display: 'none'
-    },
-    displayFlex: {
-        display: 'flex'
-    },
-    searchBarButtons: {
-        flex: 1.5,
-    },
-    searchBarIcons: {
-        ...StyleSheet.absoluteFillObject,
-        fontSize: 24,
-        color: '#3F51B5',
-        textAlignVertical: 'center',
-        textAlign: 'center'
-    },
-    locationSearch: {
-        flex: 7,
-    }
-});
