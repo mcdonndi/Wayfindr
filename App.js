@@ -10,7 +10,7 @@ import {
     StatusBar,
     View
 } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import styles from "./Styles"
@@ -252,6 +252,10 @@ mapStyle = [
 
 var gr = new GoRequest();
 
+const isFunction = input => typeof input === 'function';
+renderIf = predicate => elemOrThunk =>
+    predicate ? (isFunction(elemOrThunk) ? elemOrThunk() : elemOrThunk) : null;
+
 export default class App extends Component<{}> {
 
     constructor (props) {
@@ -277,6 +281,7 @@ export default class App extends Component<{}> {
                 longitudeDelta: 0.0421,
             },
             searchDestinationVis: false,
+            showMarker: false,
             oLat: null,
             oLong: null,
             dLat: null,
@@ -299,9 +304,12 @@ export default class App extends Component<{}> {
                     zoomEnabled={true}
                     scrollEnabled={true}
                 >
-                    <MapView.Marker
-                        coordinate={this.state.region.marker}
-                    />
+                    {renderIf(this.state.showMarker)(
+                        <Marker
+                            pinColor={'#3F51B5'}
+                            coordinate={this.state.region.marker}
+                        />
+                    )}
                 </MapView>
                 <View style={styles.locationSearchView}>
                     <View style={styles.locationSearchViewTop}>
@@ -333,6 +341,7 @@ export default class App extends Component<{}> {
                                     }
                                 },
                                     searchDestinationVis: true,
+                                    showMarker: true,
                                     oLat: details.geometry.location.lat,
                                     oLong: details.geometry.location.lng,});
                             }}
@@ -393,6 +402,7 @@ export default class App extends Component<{}> {
                                     longitude: details.geometry.location.lng,
                                 }
                             },
+                                showMarker: true,
                                 dLat: details.geometry.location.lat,
                                 dLong: details.geometry.location.lng,})
                         }}

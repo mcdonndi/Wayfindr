@@ -277,16 +277,7 @@ exports[`renders correctly 1`] = `
       }
     }
     zoomEnabled={true}
-  >
-    <Marker
-      coordinate={
-        Object {
-          "latitude": 53.3421508,
-          "longitude": -6.2535567,
-        }
-      }
-    />
-  </MapView>
+  />
   <View
     style={
       Object {
