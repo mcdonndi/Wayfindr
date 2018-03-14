@@ -7,10 +7,7 @@
 import React, { Component } from 'react';
 import {
     TouchableHighlight,
-    StyleSheet,
-    Text,
     StatusBar,
-    TextInput,
     View
 } from 'react-native';
 import MapView from 'react-native-maps';
@@ -262,10 +259,16 @@ export default class App extends Component<{}> {
 
         this.state = {
             region: {
-                latitude: 53.3421508,
-                longitude: -6.2535567,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
+                mapView: {
+                    latitude: 53.3421508,
+                    longitude: -6.2535567,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                },
+                marker: {
+                    latitude: 53.3421508,
+                    longitude: -6.2535567,
+                }
             },
             initialRegion: {
                 latitude: 53.3421508,
@@ -281,10 +284,6 @@ export default class App extends Component<{}> {
         };
     }
 
-    onRegionChange(region) {
-        this.setState({ region });
-    }
-
     render() {
         return (
             <View style={styles.container}>
@@ -295,12 +294,15 @@ export default class App extends Component<{}> {
                 <MapView
                     style={styles.map}
                     initialRegion={this.state.initialRegion}
-                    region={this.state.region}
-                    onRegionChange={this.onRegionChange.bind(this)}
+                    region={this.state.region.mapView}
                     customMapStyle={mapStyle}
                     zoomEnabled={true}
                     scrollEnabled={true}
-                />
+                >
+                    <MapView.Marker
+                        coordinate={this.state.region.marker}
+                    />
+                </MapView>
                 <View style={styles.locationSearchView}>
                     <View style={styles.locationSearchViewTop}>
                         <TouchableHighlight style={styles.searchBarButtons}>
@@ -319,14 +321,20 @@ export default class App extends Component<{}> {
                             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                                 console.log(data, details);
                                 this.setState ({region: {
-                                    latitude: details.geometry.location.lat,
-                                    longitude: details.geometry.location.lng,
-                                    latitudeDelta: 0.0922,
-                                    longitudeDelta: 0.0421,
+                                    mapView: {
+                                        latitude: details.geometry.location.lat,
+                                        longitude: details.geometry.location.lng,
+                                        latitudeDelta: 0.0922,
+                                        longitudeDelta: 0.0421,
+                                    },
+                                    marker: {
+                                        latitude: details.geometry.location.lat,
+                                        longitude: details.geometry.location.lng,
+                                    }
                                 },
-                                searchDestinationVis: true,
-                                oLat: details.geometry.location.lat,
-                                oLong: details.geometry.location.lng,});
+                                    searchDestinationVis: true,
+                                    oLat: details.geometry.location.lat,
+                                    oLong: details.geometry.location.lng,});
                             }}
                             getDefaultValue={() => ''}
                             query={{
@@ -373,14 +381,20 @@ export default class App extends Component<{}> {
                         fetchDetails={true}
                         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                             console.log(data, details);
-                            this.setState ({region: {
-                                latitude: details.geometry.location.lat,
-                                longitude: details.geometry.location.lng,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
+                            this.setState ({region:  {
+                                mapView: {
+                                    latitude: details.geometry.location.lat,
+                                    longitude: details.geometry.location.lng,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
+                                },
+                                marker: {
+                                    latitude: details.geometry.location.lat,
+                                    longitude: details.geometry.location.lng,
+                                }
                             },
-                            dLat: details.geometry.location.lat,
-                            dLong: details.geometry.location.lng,})
+                                dLat: details.geometry.location.lat,
+                                dLong: details.geometry.location.lng,})
                         }}
                         getDefaultValue={() => ''}
                         query={{
