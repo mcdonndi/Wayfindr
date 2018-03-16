@@ -277,7 +277,13 @@ exports[`renders correctly 1`] = `
       }
     }
     zoomEnabled={true}
-  />
+  >
+    <Polyline
+      coordinates={Array []}
+      strokeColor="#FFF"
+      strokeWidth={6}
+    />
+  </MapView>
   <View
     style={
       Object {

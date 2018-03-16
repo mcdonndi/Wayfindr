@@ -10,7 +10,7 @@ import {
     StatusBar,
     View
 } from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {Marker, Polyline} from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import styles from "./Styles"
@@ -286,6 +286,7 @@ export default class App extends Component<{}> {
             oLong: null,
             dLat: null,
             dLong: null,
+            route: []
         };
     }
 
@@ -304,6 +305,11 @@ export default class App extends Component<{}> {
                     zoomEnabled={true}
                     scrollEnabled={true}
                 >
+                    <Polyline
+                        coordinates={this.state.route}
+                        strokeColor={"#FFF"} // fallback for when `strokeColors` is not supported by the map-provider
+                        strokeWidth={6}
+                    />
                     {renderIf(this.state.showMarker)(
                         <Marker
                             pinColor={'#3F51B5'}
@@ -374,7 +380,13 @@ export default class App extends Component<{}> {
                             debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                         />
                         <TouchableHighlight style={styles.searchBarButtons}
-                            onPress={() => gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong)}>
+                            onPress={() => {
+                                gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong, (route) => {
+                                    this.state.route = route;
+                                    console.log(this.state.route);
+                                    this.forceUpdate();
+                                });
+                            }}>
                             <Icon
                                 style={styles.searchBarIcons}
                                 name="search"
