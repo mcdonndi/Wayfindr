@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#3F51B5",
+        "padding": 10,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#E8EAF6",
+          "fontSize": 21,
+        }
+      }
+    >
+      User Preferences
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "padding": 10,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#000",
+          "fontSize": 15,
+        }
+      }
+    >
+      Max sound level(dB): 
+      60
+    </Text>
+    <RCTSlider
+      disabled={false}
+      enabled={true}
+      maximumValue={150}
+      minimumValue={20}
+      onChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onSlidingComplete={undefined}
+      onStartShouldSetResponder={[Function]}
+      onValueChange={[Function]}
+      step={1}
+      style={
+        Array [
+          Object {
+            "height": 40,
+          },
+          undefined,
+        ]
+      }
+      value={60}
+    />
+  </View>
+</View>
+`;

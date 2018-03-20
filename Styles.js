@@ -40,5 +40,23 @@ export default StyleSheet.create({
     },
     locationSearch: {
         flex: 7,
+    },
+    menuView: {
+        backgroundColor: '#E8EAF6',
+    },
+    menuTitleView: {
+        backgroundColor: '#3F51B5',
+        padding: 10
+    },
+    menuTitle: {
+        fontSize: 21,
+        color: '#E8EAF6',
+    },
+    menuContentView: {
+        padding: 10
+    },
+    menuContent: {
+        fontSize: 15,
+        color: '#000',
     }
 });

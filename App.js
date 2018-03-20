@@ -11,6 +11,8 @@ import {
     View
 } from 'react-native';
 import MapView, {Marker, Polyline} from 'react-native-maps';
+import SideMenu from 'react-native-side-menu';
+import Menu from './components/Menu';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import styles from "./Styles"
@@ -250,7 +252,7 @@ mapStyle = [
     }
 ];
 
-var gr = new GoRequest();
+let gr = new GoRequest();
 
 const isFunction = input => typeof input === 'function';
 renderIf = predicate => elemOrThunk =>
@@ -286,55 +288,133 @@ export default class App extends Component<{}> {
             oLong: null,
             dLat: null,
             dLong: null,
-            route: []
+            route: [],
+            menuOpen: false
         };
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <StatusBar
-                    backgroundColor="#3F51B5"
-                    barStyle="light-content"
-                />
-                <MapView
-                    style={styles.map}
-                    initialRegion={this.state.initialRegion}
-                    region={this.state.region.mapView}
-                    customMapStyle={mapStyle}
-                    zoomEnabled={true}
-                    scrollEnabled={true}
-                >
-                    <Polyline
-                        coordinates={this.state.route}
-                        strokeColor={"#FFF"} // fallback for when `strokeColors` is not supported by the map-provider
-                        strokeWidth={6}
+            <SideMenu
+                menu={<Menu />}
+                isOpen={this.state.menuOpen}
+            >
+                <View style={styles.container}>
+                    <StatusBar
+                        backgroundColor="#3F51B5"
+                        barStyle="light-content"
                     />
-                    {renderIf(this.state.showMarker)(
-                        <Marker
-                            pinColor={'#3F51B5'}
-                            coordinate={this.state.region.marker}
+                    <MapView
+                        style={styles.map}
+                        initialRegion={this.state.initialRegion}
+                        region={this.state.region.mapView}
+                        customMapStyle={mapStyle}
+                        zoomEnabled={true}
+                        scrollEnabled={true}
+                    >
+                        <Polyline
+                            coordinates={this.state.route}
+                            strokeColor={"#FFF"} // fallback for when `strokeColors` is not supported by the map-provider
+                            strokeWidth={6}
                         />
-                    )}
-                </MapView>
-                <View style={styles.locationSearchView}>
-                    <View style={styles.locationSearchViewTop}>
-                        <TouchableHighlight style={styles.searchBarButtons}>
-                            <Icon
-                                style={styles.searchBarIcons}
-                                name="menu"
+                        {renderIf(this.state.showMarker)(
+                            <Marker
+                                pinColor={'#3F51B5'}
+                                coordinate={this.state.region.marker}
                             />
-                        </TouchableHighlight>
+                        )}
+                    </MapView>
+                    <View style={styles.locationSearchView}>
+                        <View style={styles.locationSearchViewTop}>
+                            <TouchableHighlight style={styles.searchBarButtons}
+                                onPress={() => {
+                                    this.state.menuOpen = true;
+                                    this.forceUpdate();
+                                }}
+                            >
+                                <Icon
+                                    style={styles.searchBarIcons}
+                                    name="menu"
+                                />
+                            </TouchableHighlight>
+                            <GooglePlacesAutocomplete
+                                style={styles.locationSearch}
+                                placeholder='Enter Location'
+                                minLength={2} // minimum length of text to search
+                                autoFocus={false}
+                                listViewDisplayed='auto'    // true/false/undefined
+                                fetchDetails={true}
+                                onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                                    console.log(data, details);
+                                    this.setState ({region: {
+                                        mapView: {
+                                            latitude: details.geometry.location.lat,
+                                            longitude: details.geometry.location.lng,
+                                            latitudeDelta: 0.0922,
+                                            longitudeDelta: 0.0421,
+                                        },
+                                        marker: {
+                                            latitude: details.geometry.location.lat,
+                                            longitude: details.geometry.location.lng,
+                                        }
+                                    },
+                                        searchDestinationVis: true,
+                                        showMarker: true,
+                                        oLat: details.geometry.location.lat,
+                                        oLong: details.geometry.location.lng,});
+                                }}
+                                getDefaultValue={() => ''}
+                                query={{
+                                    // available options: https://developers.google.com/places/web-service/autocomplete
+                                    key: 'AIzaSyCOPygpIBgzbsKYbr1q0Yqc7rvPv6bnhv0',
+                                    language: 'en', // language of the results
+                                }}
+                                styles={{
+                                    container: {
+                                        flex: 7
+                                    },
+                                    textInputContainer: {
+                                        width: '100%'
+                                    },
+                                    description: {
+                                        fontWeight: 'bold'
+                                    }
+                                }}
+                                nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                                GooglePlacesSearchQuery={{
+                                    // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                                    rankby: 'distance',
+                                    types: 'address'
+                                }}
+                                filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+
+
+                                debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+                            />
+                            <TouchableHighlight style={styles.searchBarButtons}
+                                onPress={() => {
+                                    gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong, (route) => {
+                                        this.state.route = route;
+                                        console.log(this.state.route);
+                                        this.forceUpdate();
+                                    });
+                                }}>
+                                <Icon
+                                    style={styles.searchBarIcons}
+                                    name="search"
+                                />
+                            </TouchableHighlight>
+                        </View>
                         <GooglePlacesAutocomplete
                             style={styles.locationSearch}
-                            placeholder='Enter Location'
+                            placeholder='Enter Destination'
                             minLength={2} // minimum length of text to search
                             autoFocus={false}
                             listViewDisplayed='auto'    // true/false/undefined
                             fetchDetails={true}
                             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                                 console.log(data, details);
-                                this.setState ({region: {
+                                this.setState ({region:  {
                                     mapView: {
                                         latitude: details.geometry.location.lat,
                                         longitude: details.geometry.location.lng,
@@ -346,10 +426,9 @@ export default class App extends Component<{}> {
                                         longitude: details.geometry.location.lng,
                                     }
                                 },
-                                    searchDestinationVis: true,
                                     showMarker: true,
-                                    oLat: details.geometry.location.lat,
-                                    oLong: details.geometry.location.lng,});
+                                    dLat: details.geometry.location.lat,
+                                    dLong: details.geometry.location.lng,})
                             }}
                             getDefaultValue={() => ''}
                             query={{
@@ -358,13 +437,12 @@ export default class App extends Component<{}> {
                                 language: 'en', // language of the results
                             }}
                             styles={{
-                                container: {
-                                    flex: 7
-                                },
+                                container: (!this.state.searchDestinationVis && styles.displayNone) || (styles.displayFlex),
                                 textInputContainer: {
-                                    width: '100%'
+                                    width: '70%'
                                 },
                                 description: {
+                                    width: '70%',
                                     fontWeight: 'bold'
                                 }
                             }}
@@ -374,76 +452,11 @@ export default class App extends Component<{}> {
                                 rankby: 'distance',
                                 types: 'address'
                             }}
-                            filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-
-
                             debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                         />
-                        <TouchableHighlight style={styles.searchBarButtons}
-                            onPress={() => {
-                                gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong, (route) => {
-                                    this.state.route = route;
-                                    console.log(this.state.route);
-                                    this.forceUpdate();
-                                });
-                            }}>
-                            <Icon
-                                style={styles.searchBarIcons}
-                                name="search"
-                            />
-                        </TouchableHighlight>
                     </View>
-                    <GooglePlacesAutocomplete
-                        style={styles.locationSearch}
-                        placeholder='Enter Destination'
-                        minLength={2} // minimum length of text to search
-                        autoFocus={false}
-                        listViewDisplayed='auto'    // true/false/undefined
-                        fetchDetails={true}
-                        onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                            console.log(data, details);
-                            this.setState ({region:  {
-                                mapView: {
-                                    latitude: details.geometry.location.lat,
-                                    longitude: details.geometry.location.lng,
-                                    latitudeDelta: 0.0922,
-                                    longitudeDelta: 0.0421,
-                                },
-                                marker: {
-                                    latitude: details.geometry.location.lat,
-                                    longitude: details.geometry.location.lng,
-                                }
-                            },
-                                showMarker: true,
-                                dLat: details.geometry.location.lat,
-                                dLong: details.geometry.location.lng,})
-                        }}
-                        getDefaultValue={() => ''}
-                        query={{
-                            // available options: https://developers.google.com/places/web-service/autocomplete
-                            key: 'AIzaSyCOPygpIBgzbsKYbr1q0Yqc7rvPv6bnhv0',
-                            language: 'en', // language of the results
-                        }}
-                        styles={{
-                            container: (!this.state.searchDestinationVis && styles.displayNone) || (styles.displayFlex),
-                            textInputContainer: {
-                                width: '70%'
-                            },
-                            description: {
-                                width: '70%',
-                                fontWeight: 'bold'
-                            }
-                        }}
-                        nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-                        GooglePlacesSearchQuery={{
-                            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-                            rankby: 'distance',
-                            types: 'address'
-                        }}
-                        debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-                    />
                 </View>
-            </View>
+            </SideMenu>
         );
     }
 }
