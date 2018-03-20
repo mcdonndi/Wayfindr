@@ -409,7 +409,7 @@ exports[`renders correctly 1`] = `
       >
         <Polyline
           coordinates={Array []}
-          strokeColor="#FFF"
+          strokeColor="#E8EAF6"
           strokeWidth={6}
         />
       </MapView>

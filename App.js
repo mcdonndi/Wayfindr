@@ -264,17 +264,19 @@ export default class App extends Component<{}> {
         super(props);
 
         this.state = {
-            region: {
-                mapView: {
-                    latitude: 53.3421508,
-                    longitude: -6.2535567,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                },
-                marker: {
-                    latitude: 53.3421508,
-                    longitude: -6.2535567,
-                }
+            mapView: {
+                latitude: 53.3421508,
+                longitude: -6.2535567,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            },
+            originMarker: {
+                latitude: 53.3421508,
+                longitude: -6.2535567,
+            },
+            destinationMarker: {
+                latitude: 53.3421508,
+                longitude: -6.2535567,
             },
             initialRegion: {
                 latitude: 53.3421508,
@@ -283,7 +285,8 @@ export default class App extends Component<{}> {
                 longitudeDelta: 0.0421,
             },
             searchDestinationVis: false,
-            showMarker: false,
+            showOriginMarker: false,
+            showDestinationMarker: false,
             oLat: null,
             oLong: null,
             dLat: null,
@@ -294,8 +297,7 @@ export default class App extends Component<{}> {
     }
 
     calculateDelta = (northEast, southWest) => {
-        let latDelta = northEast - southWest;
-        return latDelta;
+        return northEast - southWest;
     };
 
     render() {
@@ -312,20 +314,26 @@ export default class App extends Component<{}> {
                     <MapView
                         style={styles.map}
                         initialRegion={this.state.initialRegion}
-                        region={this.state.region.mapView}
+                        region={this.state.mapView}
                         customMapStyle={mapStyle}
                         zoomEnabled={true}
                         scrollEnabled={true}
                     >
                         <Polyline
                             coordinates={this.state.route}
-                            strokeColor={"#FFF"} // fallback for when `strokeColors` is not supported by the map-provider
+                            strokeColor={"#E8EAF6"} // fallback for when `strokeColors` is not supported by the map-provider
                             strokeWidth={6}
                         />
-                        {renderIf(this.state.showMarker)(
+                        {renderIf(this.state.showOriginMarker)(
                             <Marker
                                 pinColor={'#3F51B5'}
-                                coordinate={this.state.region.marker}
+                                coordinate={this.state.originMarker}
+                            />
+                        )}
+                        {renderIf(this.state.showDestinationMarker)(
+                            <Marker
+                                pinColor={'#E8EAF6'}
+                                coordinate={this.state.destinationMarker}
                             />
                         )}
                     </MapView>
@@ -351,22 +359,22 @@ export default class App extends Component<{}> {
                                 fetchDetails={true}
                                 onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                                     console.log(data, details);
-                                    this.setState ({region: {
+                                    this.setState ({
                                         mapView: {
                                             latitude: details.geometry.location.lat,
                                             longitude: details.geometry.location.lng,
                                             latitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lat, details.geometry.viewport.southwest.lat),
                                             longitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lng, details.geometry.viewport.southwest.lng),
                                         },
-                                        marker: {
-                                            latitude: details.geometry.location.lat,
+                                        originMarker: {
+                                        latitude: details.geometry.location.lat,
                                             longitude: details.geometry.location.lng,
-                                        }
-                                    },
+                                        },
                                         searchDestinationVis: true,
-                                        showMarker: true,
+                                        showOriginMarker: true,
                                         oLat: details.geometry.location.lat,
-                                        oLong: details.geometry.location.lng,});
+                                        oLong: details.geometry.location.lng,
+                                    });
                                 }}
                                 getDefaultValue={() => ''}
                                 query={{
@@ -419,21 +427,21 @@ export default class App extends Component<{}> {
                             fetchDetails={true}
                             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                                 console.log(data, details);
-                                this.setState ({region:  {
+                                this.setState ({
                                     mapView: {
                                         latitude: details.geometry.location.lat,
                                         longitude: details.geometry.location.lng,
                                         latitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lat, details.geometry.viewport.southwest.lat),
                                         longitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lng, details.geometry.viewport.southwest.lng),
                                     },
-                                    marker: {
+                                    destinationMarker: {
                                         latitude: details.geometry.location.lat,
                                         longitude: details.geometry.location.lng,
-                                    }
-                                },
-                                    showMarker: true,
+                                    },
+                                    showDestinationMarker: true,
                                     dLat: details.geometry.location.lat,
-                                    dLong: details.geometry.location.lng,})
+                                    dLong: details.geometry.location.lng,
+                                })
                             }}
                             getDefaultValue={() => ''}
                             query={{
