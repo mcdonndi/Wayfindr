@@ -28,3 +28,11 @@ it('renders correctly', () => {
   ).toJSON();
   expect(tree).toMatchSnapshot();
 });
+
+describe('calculateDeltas Function', () => {
+    it('returns the correct value', () => {
+        let app = new App();
+        let expectedValue = app.calculateDelta(4, 2);
+        expect(expectedValue).toBe(2);
+    })
+});

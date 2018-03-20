@@ -293,6 +293,11 @@ export default class App extends Component<{}> {
         };
     }
 
+    calculateDelta = (northEast, southWest) => {
+        let latDelta = northEast - southWest;
+        return latDelta;
+    };
+
     render() {
         return (
             <SideMenu
@@ -350,8 +355,8 @@ export default class App extends Component<{}> {
                                         mapView: {
                                             latitude: details.geometry.location.lat,
                                             longitude: details.geometry.location.lng,
-                                            latitudeDelta: 0.0922,
-                                            longitudeDelta: 0.0421,
+                                            latitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lat, details.geometry.viewport.southwest.lat),
+                                            longitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lng, details.geometry.viewport.southwest.lng),
                                         },
                                         marker: {
                                             latitude: details.geometry.location.lat,
@@ -418,8 +423,8 @@ export default class App extends Component<{}> {
                                     mapView: {
                                         latitude: details.geometry.location.lat,
                                         longitude: details.geometry.location.lng,
-                                        latitudeDelta: 0.0922,
-                                        longitudeDelta: 0.0421,
+                                        latitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lat, details.geometry.viewport.southwest.lat),
+                                        longitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lng, details.geometry.viewport.southwest.lng),
                                     },
                                     marker: {
                                         latitude: details.geometry.location.lat,
