@@ -498,6 +498,8 @@ exports[`renders correctly 1`] = `
                 },
                 Object {
                   "flex": 7,
+                  "height": "100%",
+                  "margin": 0,
                 },
               ]
             }
@@ -515,6 +517,8 @@ exports[`renders correctly 1`] = `
                     "height": 44,
                   },
                   Object {
+                    "backgroundColor": "#E8EAF6",
+                    "padding": 0,
                     "width": "100%",
                   },
                 ]
@@ -612,65 +616,74 @@ exports[`renders correctly 1`] = `
         </View>
         <View
           style={
-            Array [
-              Object {
-                "flex": 1,
-              },
-              Object {
-                "display": "none",
-              },
-            ]
+            Object {
+              "backgroundColor": "#E8EAF6",
+              "width": "70%",
+            }
           }
         >
           <View
             style={
               Array [
                 Object {
-                  "backgroundColor": "#C9C9CE",
-                  "borderBottomColor": "#b5b5b5",
-                  "borderBottomWidth": 0.5,
-                  "borderTopColor": "#7e7e7e",
-                  "borderTopWidth": 0.5,
-                  "flexDirection": "row",
-                  "height": 44,
+                  "flex": 1,
                 },
                 Object {
-                  "width": "70%",
+                  "display": "none",
                 },
               ]
             }
           >
-            <TextInput
-              allowFontScaling={true}
-              autoFocus={false}
-              clearButtonMode="while-editing"
-              onChangeText={[Function]}
-              onFocus={[Function]}
-              placeholder="Enter Destination"
-              placeholderTextColor="#A8A8A8"
-              returnKeyType="default"
+            <View
               style={
                 Array [
                   Object {
-                    "backgroundColor": "#FFFFFF",
-                    "borderRadius": 5,
-                    "flex": 1,
-                    "fontSize": 15,
-                    "height": 28,
-                    "marginLeft": 8,
-                    "marginRight": 8,
-                    "marginTop": 7.5,
-                    "paddingBottom": 4.5,
-                    "paddingLeft": 10,
-                    "paddingRight": 10,
-                    "paddingTop": 4.5,
+                    "backgroundColor": "#C9C9CE",
+                    "borderBottomColor": "#b5b5b5",
+                    "borderBottomWidth": 0.5,
+                    "borderTopColor": "#7e7e7e",
+                    "borderTopWidth": 0.5,
+                    "flexDirection": "row",
+                    "height": 44,
                   },
-                  undefined,
+                  Object {
+                    "backgroundColor": "#E8EAF6",
+                  },
                 ]
               }
-              underlineColorAndroid="transparent"
-              value=""
-            />
+            >
+              <TextInput
+                allowFontScaling={true}
+                autoFocus={false}
+                clearButtonMode="while-editing"
+                onChangeText={[Function]}
+                onFocus={[Function]}
+                placeholder="Enter Destination"
+                placeholderTextColor="#A8A8A8"
+                returnKeyType="default"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "#FFFFFF",
+                      "borderRadius": 5,
+                      "flex": 1,
+                      "fontSize": 15,
+                      "height": 28,
+                      "marginLeft": 8,
+                      "marginRight": 8,
+                      "marginTop": 7.5,
+                      "paddingBottom": 4.5,
+                      "paddingLeft": 10,
+                      "paddingRight": 10,
+                      "paddingTop": 4.5,
+                    },
+                    undefined,
+                  ]
+                }
+                underlineColorAndroid="transparent"
+                value=""
+              />
+            </View>
           </View>
         </View>
       </View>

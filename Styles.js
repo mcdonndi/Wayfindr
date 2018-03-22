@@ -22,6 +22,10 @@ export default StyleSheet.create({
         borderRadius: 3,
         backgroundColor: '#E8EAF6',
     },
+    locationSearchViewBottom: {
+        width: "70%",
+        backgroundColor: '#E8EAF6',
+    },
     displayNone: {
         display: 'none'
     },

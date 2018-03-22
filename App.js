@@ -384,9 +384,13 @@ export default class App extends Component<{}> {
                                 }}
                                 styles={{
                                     container: {
+                                        margin: 0,
+                                        height: '100%',
                                         flex: 7
                                     },
                                     textInputContainer: {
+                                        backgroundColor: '#E8EAF6',
+                                        padding: 0,
                                         width: '100%'
                                     },
                                     description: {
@@ -418,55 +422,56 @@ export default class App extends Component<{}> {
                                 />
                             </TouchableHighlight>
                         </View>
-                        <GooglePlacesAutocomplete
-                            style={styles.locationSearch}
-                            placeholder='Enter Destination'
-                            minLength={2} // minimum length of text to search
-                            autoFocus={false}
-                            listViewDisplayed='auto'    // true/false/undefined
-                            fetchDetails={true}
-                            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                                console.log(data, details);
-                                this.setState ({
-                                    mapView: {
-                                        latitude: details.geometry.location.lat,
-                                        longitude: details.geometry.location.lng,
-                                        latitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lat, details.geometry.viewport.southwest.lat),
-                                        longitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lng, details.geometry.viewport.southwest.lng),
+                        <View style={styles.locationSearchViewBottom}>
+                            <GooglePlacesAutocomplete
+                                style={styles.locationSearch}
+                                placeholder='Enter Destination'
+                                minLength={2} // minimum length of text to search
+                                autoFocus={false}
+                                listViewDisplayed='auto'    // true/false/undefined
+                                fetchDetails={true}
+                                onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                                    console.log(data, details);
+                                    this.setState ({
+                                        mapView: {
+                                            latitude: details.geometry.location.lat,
+                                            longitude: details.geometry.location.lng,
+                                            latitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lat, details.geometry.viewport.southwest.lat),
+                                            longitudeDelta: this.calculateDelta(details.geometry.viewport.northeast.lng, details.geometry.viewport.southwest.lng),
+                                        },
+                                        destinationMarker: {
+                                            latitude: details.geometry.location.lat,
+                                            longitude: details.geometry.location.lng,
+                                        },
+                                        showDestinationMarker: true,
+                                        dLat: details.geometry.location.lat,
+                                        dLong: details.geometry.location.lng,
+                                    })
+                                }}
+                                getDefaultValue={() => ''}
+                                query={{
+                                    // available options: https://developers.google.com/places/web-service/autocomplete
+                                    key: 'AIzaSyCOPygpIBgzbsKYbr1q0Yqc7rvPv6bnhv0',
+                                    language: 'en', // language of the results
+                                }}
+                                styles={{
+                                    container: (!this.state.searchDestinationVis && styles.displayNone) || (styles.displayFlex),
+                                    textInputContainer: {
+                                        backgroundColor: '#E8EAF6',
                                     },
-                                    destinationMarker: {
-                                        latitude: details.geometry.location.lat,
-                                        longitude: details.geometry.location.lng,
-                                    },
-                                    showDestinationMarker: true,
-                                    dLat: details.geometry.location.lat,
-                                    dLong: details.geometry.location.lng,
-                                })
-                            }}
-                            getDefaultValue={() => ''}
-                            query={{
-                                // available options: https://developers.google.com/places/web-service/autocomplete
-                                key: 'AIzaSyCOPygpIBgzbsKYbr1q0Yqc7rvPv6bnhv0',
-                                language: 'en', // language of the results
-                            }}
-                            styles={{
-                                container: (!this.state.searchDestinationVis && styles.displayNone) || (styles.displayFlex),
-                                textInputContainer: {
-                                    width: '70%'
-                                },
-                                description: {
-                                    width: '70%',
-                                    fontWeight: 'bold'
-                                }
-                            }}
-                            nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-                            GooglePlacesSearchQuery={{
-                                // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-                                rankby: 'distance',
-                                types: 'address'
-                            }}
-                            debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-                        />
+                                    description: {
+                                        fontWeight: 'bold'
+                                    }
+                                }}
+                                nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                                GooglePlacesSearchQuery={{
+                                    // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                                    rankby: 'distance',
+                                    types: 'address'
+                                }}
+                                debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+                            />
+                        </View>
                     </View>
                 </View>
             </SideMenu>
