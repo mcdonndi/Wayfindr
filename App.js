@@ -291,6 +291,7 @@ export default class App extends Component<{}> {
             oLong: null,
             dLat: null,
             dLong: null,
+            RouteID: null,
             route: [],
             menuOpen: false
         };
@@ -411,7 +412,8 @@ export default class App extends Component<{}> {
                             <TouchableHighlight style={styles.searchBarButtons}
                                 onPress={() => {
                                     gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong, (route) => {
-                                        this.state.route = route;
+                                        this.state.RouteID = route.RouteID;
+                                        this.state.route = route.points;
                                         console.log(this.state.route);
                                         this.forceUpdate();
                                     });

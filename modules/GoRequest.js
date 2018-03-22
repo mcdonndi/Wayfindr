@@ -6,9 +6,11 @@ export default class GoRequest{
         fetch('http://52.211.183.249:8080/getRoutes?oLat=' + oLat + '&oLong=' + oLong + '&dLat=' + dLat + '&dLong=' + dLong)
         .then((response) => response.json())
         .then((responseJson) => {
-            let route = [];
+            let route = {
+                RouteID: responseJson.RouteID,
+                points: []};
             for (let p of responseJson.points) {
-                route.push({
+                route.points.push({
                     latitude: p.point.lat,
                     longitude: p.point.lng
                 });
