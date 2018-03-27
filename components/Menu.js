@@ -7,16 +7,17 @@ class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: 60,
+            maxSoundLevel: 60,
         };
     }
 
     change(value) {
         this.setState(() => {
             return {
-                value: parseFloat(value),
+                maxSoundLevel: parseFloat(value),
             };
         });
+        this.props.onChangeSoundLevel(value);
     }
 
     render() {
@@ -29,7 +30,7 @@ class Menu extends Component {
                 </View>
                 <View style={styles.menuContentView}>
                     <Text style={styles.menuContent}>
-                        Max sound level(dB): {this.state.value}
+                        Max sound level(dB): {this.state.maxSoundLevel}
                     </Text>
                     <Slider
                         minimumValue={20}

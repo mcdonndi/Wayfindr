@@ -2,8 +2,8 @@ import React from 'react'
 import {Alert} from 'react-native'
 
 export default class GoRequest{
-    getRoutes = (oLat, oLong, dLat, dLong, cb) => {
-        fetch('http://52.211.183.249:8080/getRoutes?oLat=' + oLat + '&oLong=' + oLong + '&dLat=' + dLat + '&dLong=' + dLong)
+    getRoutes = (oLat, oLong, dLat, dLong, maxSoundLevel, cb) => {
+        fetch('http://52.211.183.249:8080/getRoutes?oLat=' + oLat + '&oLong=' + oLong + '&dLat=' + dLat + '&dLong=' + dLong + '&maxSoundLevel=' + maxSoundLevel)
         .then((response) => response.json())
         .then((responseJson) => {
             console.log(responseJson);

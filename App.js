@@ -313,9 +313,14 @@ export default class App extends Component<{}> {
             dLong: null,
             RouteID: null,
             route: [],
-            menuOpen: false
+            menuOpen: false,
+            maxSoundLevel: 60
         };
     }
+
+    handleSoundLevel = (soundLevel) => {
+        this.setState({maxSoundLevel: soundLevel});
+    };
 
     calculateDelta = (northEast, southWest) => {
         return northEast - southWest;
@@ -391,7 +396,9 @@ export default class App extends Component<{}> {
     render() {
         return (
             <SideMenu
-                menu={<Menu />}
+                menu={<Menu
+                    onChangeSoundLevel={this.handleSoundLevel}
+                />}
                 isOpen={this.state.menuOpen}
             >
                 <View style={styles.container}>
@@ -498,7 +505,7 @@ export default class App extends Component<{}> {
                             />
                             <TouchableHighlight style={styles.searchBarButtons}
                                 onPress={() => {
-                                    gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong, (route) => {
+                                    gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong, this.state.maxSoundLevel, (route) => {
                                         this.state.RouteID = route.RouteID;
                                         this.state.route = route.points;
                                         console.log(this.state.route);

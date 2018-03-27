@@ -30,7 +30,7 @@ it('renders correctly', () => {
 });
 
 describe('calculateDeltas Function', () => {
-    it('returns the correct value', () => {
+    it('returns the correct maxSoundLevel', () => {
         let app = new App();
         let expectedValue = app.calculateDelta(4, 2);
         expect(expectedValue).toBe(2);

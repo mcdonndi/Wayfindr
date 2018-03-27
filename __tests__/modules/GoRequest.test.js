@@ -51,7 +51,7 @@ describe('GoRequest', () => {
                 done();
             };
 
-            await gr.getRoutes('foo', 'bar', 'foo', 'bar', callback);
+            await gr.getRoutes('foo', 'bar', 'foo', 'bar', 'foo', callback);
         });
 
         it("should return a route object with a RouteID property", async (done) => {
@@ -60,7 +60,7 @@ describe('GoRequest', () => {
                 done();
             };
 
-            await gr.getRoutes('foo', 'bar', 'foo', 'bar', callback);
+            await gr.getRoutes('foo', 'bar', 'foo', 'bar', 'foo', callback);
         });
 
         it("should match the expected result", async (done) => {
@@ -90,7 +90,7 @@ describe('GoRequest', () => {
                 }
             };
 
-            await gr.getRoutes('foo', 'bar', 'foo', 'bar', callback);
+            await gr.getRoutes('foo', 'bar', 'foo', 'bar', 'foo', callback);
         })
     });
 
