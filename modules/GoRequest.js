@@ -26,13 +26,13 @@ export default class GoRequest{
     };
 
     getUpdatedRoutes = (RouteID, pnum, cb) => {
-        fetch('http://52.211.183.249:8080/getRoutes?rid=' + RouteID + '&pnum=' + pnum)
+        fetch('http://52.211.183.249:8080/getRoutes?routeID=' + RouteID + '&pointNum=' + pnum)
             .then((response) => response.json())
             .then((responseJson) => {
-                if (responseJson.noChange === false) {
+                if (responseJson.Nochange === false) {
                     let route = {
                         RouteID: responseJson.RouteID,
-                        noChange: responseJson.noChange,
+                        noChange: responseJson.Nochange,
                         points: []
                     };
                     for (let p of responseJson.Points) {
@@ -45,7 +45,7 @@ export default class GoRequest{
                     cb(route);
                 } else {
                     cb({
-                        noChange: responseJson.noChange,
+                        noChange: responseJson.Nochange,
                     });
                 }
             })

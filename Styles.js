@@ -62,5 +62,19 @@ export default StyleSheet.create({
     menuContent: {
         fontSize: 15,
         color: '#000',
+    },
+    journeyCompleteButton: {
+        height: 40,
+        borderRadius: 10,
+        backgroundColor: '#3F51B5',
+        bottom: 30,
+        width: '70%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute'
+    },
+    journeyCompleteText: {
+        color: '#E8EAF6',
+        fontSize: 24,
     }
 });

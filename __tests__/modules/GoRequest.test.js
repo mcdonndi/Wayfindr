@@ -105,7 +105,7 @@ describe('GoRequest', () => {
                         json: function () {
                             return {
                                 "RouteID": 5,
-                                "noChange": false,
+                                "Nochange": false,
                                 "Points": [
                                     {
                                         "Position": 1,
@@ -174,7 +174,7 @@ describe('GoRequest', () => {
                         json: function () {
                             return {
                                 "RouteID": 5,
-                                "noChange": true,
+                                "Nochange": true,
                                 "Points": [
                                     {
                                         "Position": 1,

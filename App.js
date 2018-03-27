@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import styles from "./Styles"
 import GoRequest from "./modules/GoRequest";
+import JourneyCompleteButton from "./components/JourneyCompleteButton";
 
 async function requestCameraPermission() {
     try {
@@ -305,6 +306,7 @@ export default class App extends Component<{}> {
                 longitudeDelta: 0.0421,
             },
             searchDestinationVis: false,
+            journeyCompleteVis: false,
             showOriginMarker: false,
             showDestinationMarker: false,
             oLat: null,
@@ -322,6 +324,17 @@ export default class App extends Component<{}> {
         this.setState({maxSoundLevel: soundLevel});
     };
 
+    handleFinishedRoute = () => {
+        this.setState({
+            route: [],
+            journeyCompleteVis: false,
+            showOriginMarker: false,
+            showDestinationMarker: false,
+        });
+        this.GooglePlacesRef1.setAddressText("");
+        this.GooglePlacesRef2.setAddressText("");
+    };
+
     calculateDelta = (northEast, southWest) => {
         return northEast - southWest;
     };
@@ -329,13 +342,13 @@ export default class App extends Component<{}> {
     getClosestPointToCurrentLocation = () => {
         let shortestDis = null;
         let index = null;
-        for (let [i, p] of this.state.route.entries()) {
+        this.state.route.forEach( (p, i) => {
             let d = this.getDistanceFromCurrentLocation(p.latitude, p.longitude);
             if (d < shortestDis || shortestDis === null) {
                 shortestDis = d;
                 index = i;
             }
-        }
+        });
         return index;
     };
 
@@ -446,6 +459,7 @@ export default class App extends Component<{}> {
                                 />
                             </TouchableHighlight>
                             <GooglePlacesAutocomplete
+                                ref={(instance) => { this.GooglePlacesRef1 = instance }}
                                 style={styles.locationSearch}
                                 placeholder='Enter Location'
                                 minLength={2} // minimum length of text to search
@@ -505,12 +519,15 @@ export default class App extends Component<{}> {
                             />
                             <TouchableHighlight style={styles.searchBarButtons}
                                 onPress={() => {
-                                    gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong, this.state.maxSoundLevel, (route) => {
-                                        this.state.RouteID = route.RouteID;
-                                        this.state.route = route.points;
-                                        console.log(this.state.route);
-                                        this.forceUpdate();
-                                    });
+                                    if(this.state.oLat && this.state.oLong && this.state.dLat && this.state.dLong) {
+                                        gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong, this.state.maxSoundLevel, (route) => {
+                                            this.state.RouteID = route.RouteID;
+                                            this.state.route = route.points;
+                                            this.state.journeyCompleteVis = true;
+                                            console.log(this.state.route);
+                                            this.forceUpdate();
+                                        });
+                                    }
                                 }}>
                                 <Icon
                                     style={styles.searchBarIcons}
@@ -520,6 +537,7 @@ export default class App extends Component<{}> {
                         </View>
                         <View style={styles.locationSearchViewBottom}>
                             <GooglePlacesAutocomplete
+                                ref={(instance) => { this.GooglePlacesRef2 = instance }}
                                 style={styles.locationSearch}
                                 placeholder='Enter Destination'
                                 minLength={2} // minimum length of text to search
@@ -569,6 +587,9 @@ export default class App extends Component<{}> {
                             />
                         </View>
                     </View>
+                    {renderIf(this.state.journeyCompleteVis)(
+                        <JourneyCompleteButton onRouteFinish={this.handleFinishedRoute}/>
+                    )}
                 </View>
             </SideMenu>
         );
