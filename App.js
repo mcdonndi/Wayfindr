@@ -8,7 +8,8 @@ import React, { Component } from 'react';
 import {
     TouchableHighlight,
     StatusBar,
-    View
+    View,
+    PermissionAndroid
 } from 'react-native';
 import MapView, {Marker, Polyline} from 'react-native-maps';
 import SideMenu from 'react-native-side-menu';
@@ -17,6 +18,25 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import styles from "./Styles"
 import GoRequest from "./modules/GoRequest";
+
+async function requestCameraPermission() {
+    try {
+        const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+            {
+                'title': 'Wayfindr Location Permission',
+                'message': 'Wayfindr needs access to your location so it can be used to live update your journey'
+            }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log("You can use the location")
+        } else {
+            console.log("Location permission denied")
+        }
+    } catch (err) {
+        console.warn(err)
+    }
+}
 
 mapStyle = [
     {
@@ -300,6 +320,73 @@ export default class App extends Component<{}> {
     calculateDelta = (northEast, southWest) => {
         return northEast - southWest;
     };
+
+    getClosestPointToCurrentLocation = () => {
+        let shortestDis = null;
+        let index = null;
+        for (let [i, p] of this.state.route.entries()) {
+            let d = this.getDistanceFromCurrentLocation(p.latitude, p.longitude);
+            if (d < shortestDis || shortestDis === null) {
+                shortestDis = d;
+                index = i;
+            }
+        }
+        return index;
+    };
+
+    getDistanceFromCurrentLocation = (lat, lng) => {
+        navigator.geolocation.getCurrentPosition( (position) => {
+            let currLat = position.coords.latitude;
+            let currLng = position.coords.longitude;
+            let R = 6371e3; // metres
+            let phi1 = lat * Math.PI / 180;
+            let phi2 = currLat * Math.PI / 180;
+            let deltaPhi = (currLat-lat) * Math.PI / 180;
+            let deltaLambda = (currLng-lng) * Math.PI / 180;
+
+            let a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) +
+                Math.cos(phi1) * Math.cos(phi2) *
+                Math.sin(deltaLambda/2) * Math.sin(deltaLambda/2);
+            let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+            return R * c;
+        })
+    };
+
+    checkForUpdates = () => {
+        if(this.state.route.length > 0) {
+            console.log('Checking Go for update');
+            let index = this.getClosestPointToCurrentLocation();
+            gr.getUpdatedRoutes(this.state.RouteID, index, (route) => {
+                if (route.noChange === false) {
+                    Alert.alert(
+                        'Environment Update',
+                        'An upcoming area on your route is now conflicting with your preferences.\n' +
+                        'Would you like to update your route?',
+                        [
+                            {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                            {text: 'Yes', onPress: () => {
+                                console.log('OK Pressed');
+                                this.state.RouteID = route.RouteID;
+                                this.state.route = route.points;
+                                console.log(this.state.route);
+                                this.forceUpdate();
+                            }},
+                        ],
+                        { cancelable: false }
+                    );
+                }
+            })
+        }
+    };
+
+    componentDidMount() {
+        this._interval = setInterval(this.checkForUpdates, 60000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this._interval);
+    }
 
     render() {
         return (
