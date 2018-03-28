@@ -313,6 +313,14 @@ export default class App extends Component<{}> {
             oLong: null,
             dLat: null,
             dLong: null,
+            oNELat: null,
+            oSWLat: null,
+            oNELng: null,
+            oSWLng: null,
+            dNELat: null,
+            dSWLat: null,
+            dNELng: null,
+            dSWLng: null,
             RouteID: null,
             route: [],
             menuOpen: false,
@@ -337,6 +345,43 @@ export default class App extends Component<{}> {
 
     calculateDelta = (northEast, southWest) => {
         return northEast - southWest;
+    };
+
+    calculateRouteMapview = (oNELat, oSWLat, dNELat, dSWLat, oNELng, oSWLng, dNELng, dSWLng) => {
+        let northEastLat, southWestLat, northEastLng, southWestLng;
+        if (oNELat > dNELat) {
+            northEastLat = oNELat
+        } else {
+            northEastLat = dNELat
+        }
+
+        if (oSWLat < dSWLat) {
+            southWestLat = oSWLat
+        } else {
+            southWestLat = dSWLat
+        }
+
+        if (oNELng > dNELng) {
+            northEastLng = oNELng
+        } else {
+            northEastLng = dNELng
+        }
+
+        if (oSWLng < dSWLng) {
+            southWestLng = oSWLng
+        } else {
+            southWestLng = dSWLng
+        }
+
+        let centreLat = (northEastLat + southWestLat)/2;
+        let centreLng = (northEastLng + southWestLng)/2;
+
+        return {
+            latitude: centreLat,
+            longitude: centreLng,
+            latitudeDelta: this.calculateDelta(northEastLat, southWestLat),
+            longitudeDelta: this.calculateDelta(northEastLng, southWestLng),
+        }
     };
 
     getClosestPointToCurrentLocation = () => {
@@ -484,6 +529,10 @@ export default class App extends Component<{}> {
                                         showOriginMarker: true,
                                         oLat: details.geometry.location.lat,
                                         oLong: details.geometry.location.lng,
+                                        oNELat: details.geometry.viewport.northeast.lat,
+                                        oSWLat: details.geometry.viewport.southwest.lat,
+                                        oNELng: details.geometry.viewport.northeast.lng,
+                                        oSWLng: details.geometry.viewport.southwest.lng,
                                     });
                                 }}
                                 getDefaultValue={() => ''}
@@ -521,6 +570,9 @@ export default class App extends Component<{}> {
                             <TouchableHighlight style={styles.searchBarButtons}
                                 onPress={() => {
                                     if(this.state.oLat && this.state.oLong && this.state.dLat && this.state.dLong) {
+                                        this. setState({
+                                            mapView: this.calculateRouteMapview(this.state.oNELat, this.state.oSWLat, this.state.dNELat, this.state.dSWLat, this.state.oNELng, this.state.oSWLng, this.state.dNELng, this.state.dSWLng)
+                                        });
                                         gr.getRoutes(this.state.oLat, this.state.oLong, this.state.dLat, this.state.dLong, this.state.maxSoundLevel, (route) => {
                                             this.state.RouteID = route.RouteID;
                                             this.state.route = route.points;
@@ -561,6 +613,10 @@ export default class App extends Component<{}> {
                                         showDestinationMarker: true,
                                         dLat: details.geometry.location.lat,
                                         dLong: details.geometry.location.lng,
+                                        dNELat: details.geometry.viewport.northeast.lat,
+                                        dSWLat: details.geometry.viewport.southwest.lat,
+                                        dNELng: details.geometry.viewport.northeast.lng,
+                                        dSWLng: details.geometry.viewport.southwest.lng,
                                     })
                                 }}
                                 getDefaultValue={() => ''}

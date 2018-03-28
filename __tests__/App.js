@@ -29,10 +29,23 @@ it('renders correctly', () => {
   expect(tree).toMatchSnapshot();
 });
 
-describe('calculateDeltas Function', () => {
+describe('calculateDeltas function', () => {
     it('returns the correct maxSoundLevel', () => {
         let app = new App();
-        let expectedValue = app.calculateDelta(4, 2);
-        expect(expectedValue).toBe(2);
+        let returnedValue = app.calculateDelta(4, 2);
+        expect(returnedValue).toBe(2);
+    })
+});
+
+describe('calculateRouteMapView function', () => {
+    it('returns the expected mapView object', () => {
+        let app = new App();
+        let returnedValue = app.calculateRouteMapview(-3, -1, 3, 5, 5, 0, 0, -5);
+        expect(returnedValue).toEqual({
+            latitude: 1,
+            longitude: 0,
+            latitudeDelta: 4,
+            longitudeDelta: 10
+        });
     })
 });

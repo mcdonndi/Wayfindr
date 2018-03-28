@@ -3,7 +3,7 @@ import {Alert} from 'react-native'
 
 export default class GoRequest{
     getRoutes = (oLat, oLong, dLat, dLong, maxSoundLevel, cb) => {
-        fetch('http://52.211.183.249:8080/getRoutes?oLat=' + oLat + '&oLong=' + oLong + '&dLat=' + dLat + '&dLong=' + dLong + '&maxSoundLevel=' + maxSoundLevel)
+        fetch('http://52.211.183.249:8080/getRoute?oLat=' + oLat + '&oLong=' + oLong + '&dLat=' + dLat + '&dLong=' + dLong + '&maxSoundLevel=' + maxSoundLevel)
         .then((response) => response.json())
         .then((responseJson) => {
             console.log(responseJson);
@@ -26,7 +26,7 @@ export default class GoRequest{
     };
 
     getUpdatedRoutes = (RouteID, pnum, cb) => {
-        fetch('http://52.211.183.249:8080/getRoutes?routeID=' + RouteID + '&pointNum=' + pnum)
+        fetch('http://52.211.183.249:8080/checkRoute?routeID=' + RouteID + '&pointNum=' + pnum)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.Nochange === false) {
