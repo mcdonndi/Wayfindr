@@ -412,6 +412,7 @@ export default class App extends Component<{}> {
                 menu={<Menu
                     onChangeSoundLevel={this.handleSoundLevel}
                 />}
+                onChange={(isOpen) => {this.state.menuOpen = isOpen}}
                 isOpen={this.state.menuOpen}
             >
                 <View style={styles.container}>
